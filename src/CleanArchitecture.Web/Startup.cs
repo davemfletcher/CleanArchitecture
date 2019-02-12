@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using CleanArchitecture.Application.Employees.Queries;
 using CleanArchitecture.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using MediatR;
 
 namespace CleanArchitecture
 {
@@ -32,7 +35,7 @@ namespace CleanArchitecture
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddSingleton(Configuration);
-//            services.AddMediatR();
+            services.AddMediatR(typeof(EmployeesWithManagers).GetTypeInfo().Assembly);
 
             var edibConnectionString = Configuration["connectionStrings:NorthwindDatabase"];
             if (CurrentEnvironment.IsEnvironment("Testing"))
