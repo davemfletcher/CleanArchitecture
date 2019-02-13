@@ -23,12 +23,10 @@ namespace CleanArchitecture.Application.Employees.Queries
         public class QueryHandler : IRequestHandler<Query, IEnumerable<EmployeeManagerDto>>
         {
             private readonly NorthwindDbContext _db;
-            private readonly IMapper _mapper;
 
-            public QueryHandler(NorthwindDbContext db, IMapper mapper)
+            public QueryHandler(NorthwindDbContext db)
             {
                 _db = db;
-                _mapper = mapper;
             }
 
             public async Task<IEnumerable<EmployeeManagerDto>> Handle(Query request, CancellationToken cancellationToken)
@@ -51,9 +49,6 @@ namespace CleanArchitecture.Application.Employees.Queries
                 var employeesWithManagers = await query.ToListAsync(cancellationToken);
                 return employeesWithManagers;
 
-
-//                var employees = _db.Employees;
-//                var q = from emp in employees join _db.Employees AS m ON emp.ReportsTo = m.EmployeeID
             }
         }
     }
