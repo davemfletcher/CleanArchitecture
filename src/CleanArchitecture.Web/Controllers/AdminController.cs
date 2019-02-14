@@ -16,7 +16,8 @@ namespace CleanArchitecture.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> EmployeeManagerReport()
         {
-            return Ok(await Mediator.Send(new EmployeesWithManagers.Query()));
+            var response = await Mediator.Send(new EmployeesWithManagers.Query());
+            return Ok(response);
         }
 
     }
