@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Reflection;
+using CleanArchitecture.Application.Employees.Commands;
 using CleanArchitecture.Application.Employees.Queries;
+using CleanArchitecture.Application.Infrastructure;
 using CleanArchitecture.Persistence;
 using MediatR;
+using MediatR.Pipeline;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -27,9 +30,12 @@ namespace CleanArchitecture.Web
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc();//.SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddMediatR(typeof(EmployeesWithManagers).GetTypeInfo().Assembly);
+            //            services.AddMediatR(typeof(EmployeesWithManagers).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(EmployeesWithManagers.QueryHandler).GetTypeInfo().Assembly, typeof(EmployeesWithManagers.Query).Assembly);
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>));
 
             var edibConnectionString = Configuration["connectionStrings:NorthwindDatabase"];
             services.AddDbContext<NorthwindDbContext>(

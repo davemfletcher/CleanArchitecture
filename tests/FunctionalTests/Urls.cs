@@ -15,5 +15,10 @@ namespace FunctionalTests
             public static string EmployeesWithManagers => $"{BaseUrl}/admin";
         }
 
+        public static class Post
+        {
+            public static string ChangeEmployeeManager => $"{BaseUrl}/admin/changemanager";
+        }
+
     }
 }

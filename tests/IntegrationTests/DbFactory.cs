@@ -25,5 +25,12 @@ namespace IntegrationTests
 
             return db;
         }
+
+        public static void Destroy(NorthwindDbContext context)
+        {
+            context.Database.EnsureDeleted();
+
+            context.Dispose();
+        }
     }
 }

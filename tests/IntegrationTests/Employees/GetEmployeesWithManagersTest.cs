@@ -16,6 +16,7 @@ namespace IntegrationTests.Employees
         [Fact]
         public async Task GetList_EmployyesWithManagers_Pass()
         {
+            //since this class is all gets, probably extract db into a class property
             using (var db = DbFactory.Create())
             {
                 //Arrange
