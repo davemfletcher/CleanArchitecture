@@ -39,12 +39,40 @@ namespace FunctionalTests.API.Employees
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
+        [Fact]
+        public async Task Update_NoManagerId_StatusCodeSuccess()
+        {
+            //Arrange
+            var dto = new ChangeEmployeesManager.Command(1, null);
+            var httpContent = Util.CreateHttpContent(dto);
+
+            //Act
+            var response = await _client.PostAsync(Urls.Post.ChangeEmployeeManager, httpContent);
+
+            //Assert
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
 
         [Fact]
-        public async Task Update_InvalidManagerId_StatusCodeError()
+        public async Task Update_NonExsistentManagerId_StatusCodeError()
         {
             //Arrange
             var dto = new ChangeEmployeesManager.Command(1,999);
+            var httpContent = Util.CreateHttpContent(dto);
+
+            //Act
+            var response = await _client.PostAsync(Urls.Post.ChangeEmployeeManager, httpContent);
+
+            //Assert
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task Update_InvalidEmployeeId_StatusCodeError()
+        {
+            //Arrange
+            var dto = new ChangeEmployeesManager.Command(0, 1);
             var httpContent = Util.CreateHttpContent(dto);
 
             //Act
