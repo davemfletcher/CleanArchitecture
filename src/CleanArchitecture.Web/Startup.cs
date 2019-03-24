@@ -4,6 +4,7 @@ using CleanArchitecture.Application.Employees.Commands;
 using CleanArchitecture.Application.Employees.Queries;
 using CleanArchitecture.Application.Infrastructure;
 using CleanArchitecture.Persistence;
+using CleanArchitecture.Web.Infrastructure.DependencyInjection;
 using MediatR;
 using MediatR.Pipeline;
 using Microsoft.AspNetCore.Builder;
@@ -29,10 +30,9 @@ namespace CleanArchitecture.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddNotifications();
 
-            services.AddMvc();//.SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            //            services.AddMediatR(typeof(EmployeesWithManagers).GetTypeInfo().Assembly);
+            // services.AddMediatR(typeof(EmployeesWithManagers).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(EmployeesWithManagers.QueryHandler).GetTypeInfo().Assembly, typeof(EmployeesWithManagers.Query).Assembly);
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>));
@@ -45,6 +45,9 @@ namespace CleanArchitecture.Web
                         sqlOptions.EnableRetryOnFailure();
                     })
             );
+
+            services.AddMvc();//.SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -37,7 +37,8 @@ namespace CleanArchitecture.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyAllConfigurations();
+            // modelBuilder.ApplyAllConfigurations();
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(NorthwindDbContext).Assembly);
         }
     }
 }
