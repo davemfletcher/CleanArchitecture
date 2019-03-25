@@ -30,12 +30,10 @@ namespace CleanArchitecture.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddNotifications();
+            services.AddAppConfiguration(Configuration)
+                .AddMediatRServices()
+                .AddNotifications();
 
-            // services.AddMediatR(typeof(EmployeesWithManagers).GetTypeInfo().Assembly);
-            services.AddMediatR(typeof(EmployeesWithManagers.QueryHandler).GetTypeInfo().Assembly, typeof(EmployeesWithManagers.Query).Assembly);
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>));
 
             var edibConnectionString = Configuration["connectionStrings:NorthwindDatabase"];
             services.AddDbContext<NorthwindDbContext>(
