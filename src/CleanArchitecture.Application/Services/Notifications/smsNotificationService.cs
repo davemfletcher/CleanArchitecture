@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
-namespace CleanArchitecture.Application.Services
+namespace CleanArchitecture.Application.Services.Notifications
 {
     public class SmsNotificationService : INotificationService
     {
@@ -13,13 +12,13 @@ namespace CleanArchitecture.Application.Services
             _logger = logger;
         }
 
-        public Task SendAsync(string message, string userId)
+        public Task<bool> SendAsync(string message, string userId)
         {
             // imagine sending logic via an external service
 
             _logger.LogInformation($"Sending SMS notification to user '{userId}'.");
 
-            return Task.CompletedTask;
+            return Task.FromResult(true);
         }
     }
 }
